@@ -54,5 +54,10 @@
       "indentStyle": "space",
       "indentWidth": 2
     }
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
   }
 }
