@@ -1,6 +1,6 @@
 {
   "name": "@atom63/create-resume",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "type": "module",
   "description": "Scaffold a standalone @atom63/resume project — your resume/CV authored as MDX.",

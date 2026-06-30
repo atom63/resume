@@ -1,7 +1,4 @@
-/* The document's own look (paper, type, the --doc-* token system) ships inside
-   @atom63/resume/styles, imported from src/app.tsx. This file only needs a
-   neutral page background and a full-height root for the viewer to fill. */
-
+/* App background + full-height root for the viewer to fill. */
 html,
 body,
 #root {
@@ -11,4 +8,35 @@ body,
 
 body {
   background: #f4f4f5;
+}
+
+/* ── Restyle the resume ───────────────────────────────────────────────────
+   The document's look is driven by design tokens that ship in
+   @atom63/resume/styles. Override any of them here to restyle the resume and
+   CV together — this file loads AFTER the package styles (see main.tsx), so
+   your values win. Uncomment a line and edit it; defaults are shown.
+
+   Full token reference: the `@atom63/resume/tokens` stylesheet.
+   Note: page size is fixed to US Letter (8.5 x 11in) in this release. */
+
+[data-resume-document] {
+  /* Ink — the colors on the white page */
+  /* --doc-ink: #000; */ /* headings + bold */
+  /* --doc-ink-body: #404040; */ /* body copy */
+  /* --doc-ink-muted: #737373; */ /* labels and meta (the "year | role" column) */
+  /* --doc-ink-faint: #a3a3a3; */ /* footer, faint detail */
+  /* --doc-rule: #d4d4d4; */ /* divider lines */
+
+  /* Type — print-fixed px, independent of browser zoom */
+  /* --doc-text: 10px; */ /* body and most text */
+  /* --doc-text-xs: 8px; */ /* footer */
+  /* --doc-leading: 1.4; */ /* body line-height */
+  /* --doc-leading-heading: 1.5; */ /* heading line-height */
+
+  /* Layout */
+  /* --doc-resume-cols: 1fr 2fr; */ /* resume sidebar-to-main column ratio */
+  /* --doc-meta-col: 11rem; */ /* width of the left label column (name, section labels) */
+  /* --doc-col-pad: 1.5rem; */ /* gutter between the two resume columns */
+  /* --doc-col-gap: 0.75rem; */ /* gap between a section label and its content */
+  /* --doc-section-gap: 0.5rem; */ /* space above each section */
 }
