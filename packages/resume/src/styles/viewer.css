@@ -1,0 +1,205 @@
+/* Screen preview — keep letter layout stable on mobile browsers. */
+#resume-print-target,
+#resume-print-target * {
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+[data-resume-scale-root] {
+  transform-origin: top left;
+}
+
+/* ResumeViewer chrome — the standalone component's own layout (toolbar +
+   scroll viewport + scaled page stage). Tailwind-free; the package ships these
+   classes so the viewer is self-styled. The neutral viewport background mirrors
+   the old muted canvas; the page frames come from the document and paper tokens
+   defined in tokens.css and document.css. */
+.resume-viewer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.resume-viewer-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.375rem 0.75rem;
+  border-bottom: 1px solid rgb(0 0 0 / 0.08);
+  background: #fff;
+  flex: 0 0 auto;
+}
+
+.resume-viewer-pagecount {
+  font-size: 0.8125rem;
+  color: rgb(0 0 0 / 0.55);
+}
+
+.resume-viewer-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.resume-viewer-btn-group {
+  display: flex;
+  align-items: center;
+}
+
+.resume-viewer-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2rem;
+  min-width: 2rem;
+  padding: 0 0.375rem;
+  border: 0;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: rgb(0 0 0 / 0.7);
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+.resume-viewer-btn:hover:not(:disabled) {
+  background: rgb(0 0 0 / 0.06);
+}
+
+.resume-viewer-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.resume-viewer-btn-active {
+  background: rgb(0 0 0 / 0.08);
+  color: rgb(0 0 0 / 0.9);
+}
+
+.resume-viewer-btn-text {
+  padding: 0 0.625rem;
+}
+
+.resume-viewer-zoom-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2rem;
+  width: 3rem;
+  border: 0;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: rgb(0 0 0 / 0.55);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+
+.resume-viewer-zoom-label:hover {
+  background: rgb(0 0 0 / 0.06);
+}
+
+.resume-viewer-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.resume-viewer-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  background: rgb(244 244 245);
+}
+
+.resume-viewer-scroll-grab {
+  cursor: grab;
+}
+
+.resume-viewer-scroll-grabbing {
+  cursor: grabbing;
+}
+
+.resume-viewer-scroll-mobile {
+  touch-action: none;
+  user-select: none;
+}
+
+.resume-viewer-stage {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.resume-viewer-page-box {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.resume-viewer-scale-root {
+  position: relative;
+}
+
+.resume-viewer-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  color: #000;
+}
+
+[data-slot="scroll-area-viewport"][data-pan-active],
+.resume-viewer-scroll[data-pan-active] {
+  background-color: color-mix(in oklch, var(--muted) 42%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="scroll-area-viewport"][data-pan-active],
+  .resume-viewer-scroll[data-pan-active] {
+    transition: none;
+  }
+}
+
+#resume-print-target a,
+#resume-print-target button {
+  touch-action: manipulation;
+}
+
+@media print {
+  /* Body children are hidden/restored via JS (beforeprint/afterprint)
+     to preserve <style>/<link>/<script> tags. */
+
+  /* Hard isolation: while the resume's print clone exists, hide every other
+     direct body child (other app windows, stray clones) regardless of JS
+     hide-ordering across apps. Scoped to the clone's presence so it never
+     affects another app's print. */
+  body:has(#resume-print-clone) > :not(#resume-print-clone) {
+    display: none !important;
+  }
+
+  /* The clone is a plain wrapper around the engine's real 8.5x11 page frames
+     (a direct child of body — no positioning needed). */
+  #resume-print-clone {
+    color: black !important;
+    background: white !important;
+  }
+
+  /* Frames stack with a screen-only gap; remove it so each maps 1:1 to a page. */
+  #resume-print-clone > div {
+    gap: 0 !important;
+  }
+
+  [data-resume-page] {
+    box-shadow: none !important;
+    break-after: page;
+    break-inside: avoid;
+  }
+  [data-resume-page]:last-child {
+    break-after: auto;
+  }
+
+  @page {
+    size: letter;
+    margin: 0;
+  }
+}

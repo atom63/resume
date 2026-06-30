@@ -1,0 +1,14 @@
+/* The document's own look (paper, type, the --doc-* token system) ships inside
+   @atom63/resume/styles, imported from src/app.tsx. This file only needs a
+   neutral page background and a full-height root for the viewer to fill. */
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: #f4f4f5;
+}

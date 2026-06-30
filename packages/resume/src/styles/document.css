@@ -1,0 +1,170 @@
+/*
+ * Resume & CV document layout + type primitives. These classes only COMPOSE the
+ * design tokens — the token vocabulary itself (the paper and doc custom
+ * properties) lives in tokens.css (imported separately, or together via
+ * styles.css). Keep this file token-free so consumers can adopt just the tokens,
+ * or restyle without forking these classes.
+ */
+
+/* Layout primitives */
+.doc-meta-grid {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: var(--doc-meta-col) minmax(0, 1fr);
+  gap: var(--doc-col-gap);
+}
+.doc-resume-grid {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: var(--doc-resume-cols);
+}
+.doc-col {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--doc-block-gap);
+}
+.doc-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--doc-group-gap);
+}
+.doc-section {
+  margin-top: var(--doc-section-gap);
+}
+
+/* Type primitives */
+.doc-body {
+  font-size: var(--doc-text);
+  line-height: var(--doc-leading);
+  color: var(--doc-ink-body);
+  overflow-wrap: break-word;
+}
+.doc-meta {
+  font-size: var(--doc-text);
+  line-height: var(--doc-leading);
+  color: var(--doc-ink-muted);
+}
+.doc-heading {
+  font-size: var(--doc-text);
+  line-height: var(--doc-leading-heading);
+  color: var(--doc-ink);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.doc-title {
+  font-size: var(--doc-text);
+  line-height: 1;
+  color: var(--doc-ink);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.doc-subheading {
+  font-size: var(--doc-text);
+  line-height: 1;
+  color: var(--doc-ink);
+  font-weight: 600;
+}
+.doc-strong {
+  color: var(--doc-ink);
+  font-weight: 600;
+}
+.doc-link {
+  color: var(--doc-ink-body);
+  text-decoration: underline;
+  /* touch-manipulation equivalent for links */
+  touch-action: manipulation;
+}
+.doc-rule {
+  margin: 0.25rem 0;
+  border-bottom: 1px solid var(--doc-rule);
+}
+.doc-footer {
+  font-size: var(--doc-text-xs);
+  color: var(--doc-ink-faint);
+  /* Layout (replacing Tailwind utilities) */
+  margin-top: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.doc-footer a {
+  color: inherit;
+}
+
+/* Header / layout helpers (replacing Tailwind utilities) */
+.doc-header {
+  margin-bottom: 0.75rem;
+}
+.doc-header-col {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.doc-header-left {
+  padding-right: var(--doc-col-pad);
+}
+.doc-header-right {
+  padding-left: var(--doc-col-pad);
+}
+.doc-header-right > p + p {
+  margin-top: 0.125rem;
+}
+
+.doc-links {
+  margin-top: 0.75rem;
+}
+.doc-links > p {
+  margin-top: 0;
+  color: var(--doc-ink-muted);
+}
+.doc-links a {
+  color: inherit;
+}
+.doc-links em {
+  color: var(--doc-ink-faint);
+}
+
+.doc-entry-body {
+  min-width: 0;
+}
+
+/* Two-column grid placement (sidebar | main), used on every page incl. continuations */
+.doc-col-sidebar {
+  grid-column-start: 1;
+  grid-row-start: 1;
+  padding-right: var(--doc-col-pad);
+}
+.doc-col-main {
+  grid-column-start: 2;
+  grid-row-start: 1;
+  padding-left: var(--doc-col-pad);
+}
+
+.doc-list {
+  list-style: disc;
+  padding-left: 0.75rem;
+}
+.doc-em {
+  font-style: normal;
+}
+.doc-hr {
+  margin: 0.75rem 0;
+}
+
+/* Page frame (Tailwind shadow-lg + bg-white + text-black + flex column) */
+.doc-pages {
+  display: flex;
+  flex-direction: column;
+}
+.doc-page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  color: #000;
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+}

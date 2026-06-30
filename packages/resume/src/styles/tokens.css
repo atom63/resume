@@ -1,0 +1,48 @@
+/*
+ * @atom63/resume — paper/document design tokens.
+ *
+ * The single source of truth for the resume/CV look. Override any token (e.g.
+ * in your own stylesheet, scoped to [data-resume-document]) to restyle the
+ * resume and CV together; the React primitives only compose these.
+ *
+ *   --paper-* : page geometry (defaults: US Letter @ 96dpi; override for A4).
+ *   --doc-*   : document language (layout, type, ink).
+ *
+ * Print-fixed by design: doc sizes are absolute px for PDF fidelity, independent
+ * of any host typography-scale setting. The font *family* is inherited (so the
+ * document follows the host font), which is why pagination re-measures on font
+ * change.
+ *
+ * NOTE: the numeric --paper-* defaults and --doc-block-gap MUST stay in sync with
+ * geometry.ts (the JS packer reads the same numbers to compute page breaks).
+ */
+[data-resume-document] {
+  /* Page geometry (US Letter @ 96dpi — see geometry.ts) */
+  --paper-width: 8.5in;
+  --paper-height: 11in;
+  --paper-pad-x: 0.7in;
+  --paper-pad-y: 0.6in;
+  --paper-gap: 32px; /* screen-only gap between page frames */
+
+  /* Document layout */
+  --doc-meta-col: 11rem; /* left meta/label column (header name, section label, year|role) */
+  --doc-resume-cols: 1fr 2fr; /* resume sidebar | main split */
+  --doc-col-gap: 0.75rem; /* gap between the meta column and content */
+  --doc-col-pad: 1.5rem; /* resume two-column inner gutter */
+  --doc-block-gap: 0.375rem; /* between blocks within a column (== BLOCK_GAP_PX) */
+  --doc-section-gap: 0.5rem; /* space above a section */
+  --doc-group-gap: 0.125rem; /* within a tight group (title + meta line) */
+
+  /* Type */
+  --doc-text: 10px;
+  --doc-text-xs: 8px;
+  --doc-leading: 1.4;
+  --doc-leading-heading: 1.5;
+
+  /* Ink (on the white page) */
+  --doc-ink: #000; /* headings, strong */
+  --doc-ink-body: #404040; /* body copy (neutral-700) */
+  --doc-ink-muted: #737373; /* meta / labels (neutral-500) */
+  --doc-ink-faint: #a3a3a3; /* footer, faint detail (neutral-400) */
+  --doc-rule: #d4d4d4; /* dividers (neutral-300) */
+}

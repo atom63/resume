@@ -1,0 +1,56 @@
+{
+  "name": "@atom63/create-resume",
+  "version": "0.1.0",
+  "license": "MIT",
+  "type": "module",
+  "description": "Scaffold a standalone @atom63/resume project — your resume/CV authored as MDX.",
+  "keywords": [
+    "resume",
+    "cv",
+    "mdx",
+    "scaffold",
+    "create",
+    "ai",
+    "agent",
+    "coding-agent",
+    "claude"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/atom63/resume.git",
+    "directory": "packages/create-resume"
+  },
+  "bugs": {
+    "url": "https://github.com/atom63/resume/issues"
+  },
+  "homepage": "https://github.com/atom63/resume/tree/main/packages/create-resume#readme",
+  "bin": {
+    "create-resume": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "templates"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "biome check .",
+    "smoke": "pnpm build && node scripts/smoke-test.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.11.0"
+  },
+  "devDependencies": {
+    "@atom63/biome-config": "workspace:*",
+    "@atom63/tsconfig": "workspace:*",
+    "@biomejs/biome": "2.4.6",
+    "@types/node": "^24.5.1",
+    "tsup": "^8.3.5",
+    "typescript": "~5.8.3"
+  }
+}

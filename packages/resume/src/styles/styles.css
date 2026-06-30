@@ -1,0 +1,9 @@
+/*
+ * @atom63/resume — import-and-done stylesheet.
+ * Pulls the token vocabulary, the document layout/type primitives, and the
+ * viewer chrome. Import this once in your app:  import '@atom63/resume/styles'
+ * Adopt only the tokens instead via:            import '@atom63/resume/tokens'
+ */
+@import "./tokens.css";
+@import "./document.css";
+@import "./viewer.css";

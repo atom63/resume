@@ -1,0 +1,6 @@
+node_modules
+dist
+.turbo
+*.tgz
+*.log
+.DS_Store

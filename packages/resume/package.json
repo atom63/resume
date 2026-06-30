@@ -1,0 +1,61 @@
+{
+  "name": "@atom63/resume",
+  "version": "0.1.0",
+  "license": "MIT",
+  "type": "module",
+  "description": "Write resumes and CVs as MDX — a paginated, print-ready document engine + viewer for React, styled with a self-contained paper/document token system.",
+  "keywords": ["resume", "cv", "mdx", "react", "pdf", "pagination", "ai", "agent", "coding-agent", "claude"],
+  "repository": { "type": "git", "url": "https://github.com/atom63/resume.git", "directory": "packages/resume" },
+  "bugs": { "url": "https://github.com/atom63/resume/issues" },
+  "homepage": "https://github.com/atom63/resume/tree/main/packages/resume#readme",
+  "publishConfig": { "access": "public", "registry": "https://registry.npmjs.org/" },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": { "typescript": "./src/index.ts", "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./editor": { "typescript": "./src/editor/index.ts", "types": "./dist/editor/index.d.ts", "import": "./dist/editor/index.js" },
+    "./vite": { "typescript": "./src/vite/index.ts", "types": "./dist/vite/index.d.ts", "import": "./dist/vite/index.js" },
+    "./styles": { "types": "./src/styles/styles.d.ts", "default": "./src/styles/styles.css" },
+    "./tokens": { "types": "./src/styles/tokens.d.ts", "default": "./src/styles/tokens.css" }
+  },
+  "sideEffects": ["*.css"],
+  "files": ["dist", "src/styles"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check ."
+  },
+  "dependencies": {
+    "@mdx-js/mdx": "^3.1.1",
+    "@mdx-js/react": "^3.1.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.18.0"
+  },
+  "peerDependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "vite": "^5 || ^6 || ^7"
+  },
+  "peerDependenciesMeta": { "vite": { "optional": true } },
+  "devDependencies": {
+    "@atom63/biome-config": "workspace:*",
+    "@atom63/tsconfig": "workspace:*",
+    "@biomejs/biome": "2.4.6",
+    "@testing-library/dom": "10.4.1",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.2",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "5.1.4",
+    "jsdom": "29.1.1",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "tsup": "^8.3.5",
+    "typescript": "~5.8.3",
+    "vitest": "^4.1.8"
+  }
+}

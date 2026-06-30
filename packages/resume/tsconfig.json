@@ -1,0 +1,12 @@
+{
+  "extends": "@atom63/tsconfig/react-package.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "paths": {
+      "react": ["../../node_modules/@types/react"],
+      "react-dom": ["../../node_modules/@types/react-dom"]
+    }
+  },
+  "include": ["src"]
+}

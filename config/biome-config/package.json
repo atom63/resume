@@ -1,0 +1,10 @@
+{
+  "name": "@atom63/biome-config",
+  "version": "0.1.0",
+  "private": true,
+  "files": ["biome.json"],
+  "dependencies": {
+    "@biomejs/biome": "2.4.6",
+    "ultracite": "7.2.5"
+  }
+}
