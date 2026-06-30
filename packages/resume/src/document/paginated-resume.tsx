@@ -8,10 +8,10 @@ import {
   useRef,
   useState,
 } from 'react'
-import { BLOCK_GAP_PX, CONTENT_WIDTH_PX, PAGE, USABLE_HEIGHT_PX } from '../geometry'
+import { BLOCK_GAP_PX, getPageGeometry } from '../geometry'
 import { type Block, type ColumnKey, packIntoPages } from '../pagination/pagination'
 import { Columns, Footer, Header, Main, Sidebar } from './components'
-import { usePaginationReport, useResumeFontFamily } from './pagination-context'
+import { usePaginationReport, useResumeFontFamily, useResumePageSize } from './pagination-context'
 import '../styles/tokens.css'
 import '../styles/document.css'
 
@@ -78,6 +78,8 @@ function blockHeight(el: HTMLElement): number {
 export function PaginatedResume({ children }: { children: ReactNode }) {
   const { header, footer, blocks } = extract(children)
   const fontFamily = useResumeFontFamily()
+  const pageSize = useResumePageSize()
+  const geo = getPageGeometry(pageSize)
   const report = usePaginationReport()
 
   const measureRef = useRef<HTMLDivElement>(null)
@@ -87,7 +89,7 @@ export function PaginatedResume({ children }: { children: ReactNode }) {
   // contentKey changes whenever the rendered content could change height.
   // Print-fixed (px) sizes: only the inherited font *family* and the block
   // counts can change measured heights — the OS typography scale is ignored.
-  const contentKey = `${fontFamily}:${blocks.sidebar.length}:${blocks.main.length}`
+  const contentKey = `${fontFamily}:${pageSize}:${blocks.sidebar.length}:${blocks.main.length}`
 
   // contentKey is the intentional re-measure trigger: a change in font family /
   // block counts must force a fresh measure even though it isn't read in the body.
@@ -148,7 +150,7 @@ export function PaginatedResume({ children }: { children: ReactNode }) {
         position: 'absolute',
         top: 0,
         left: -99999,
-        width: CONTENT_WIDTH_PX,
+        width: geo.contentWidthPx,
         visibility: 'hidden',
         pointerEvents: 'none',
       }}
@@ -189,14 +191,15 @@ export function PaginatedResume({ children }: { children: ReactNode }) {
 
   const pack = packIntoPages({
     columns: { sidebar: sidebarBlocks, main: mainBlocks },
-    pageUsableHeight: p => (p === 0 ? Math.max(0, USABLE_HEIGHT_PX - headerH) : USABLE_HEIGHT_PX),
+    pageUsableHeight: p =>
+      p === 0 ? Math.max(0, geo.usableHeightPx - headerH) : geo.usableHeightPx,
     blockGap: BLOCK_GAP_PX,
   })
 
   return (
     <div data-resume-document>
       {measureLayer}
-      <div className="doc-pages" style={{ gap: PAGE.gapPx }}>
+      <div className="doc-pages" style={{ gap: geo.gapPx }}>
         {Array.from({ length: pack.pageCount }, (_, p) => {
           const sideOnPage = blocks.sidebar.filter(
             (_, i) => pack.pageOf.sidebar[`sidebar-${i}`] === p
@@ -215,10 +218,10 @@ export function PaginatedResume({ children }: { children: ReactNode }) {
               data-resume-page
               key={`page-${String(p)}`}
               style={{
-                width: PAGE.widthPx,
-                height: PAGE.heightPx,
+                width: geo.widthPx,
+                height: geo.heightPx,
                 overflow: 'hidden',
-                padding: `${PAGE.padYPx}px ${PAGE.padXPx}px`,
+                padding: `${geo.padYPx}px ${geo.padXPx}px`,
               }}
             >
               {p === 0 && header}

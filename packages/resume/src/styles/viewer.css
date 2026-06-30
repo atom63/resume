@@ -198,8 +198,9 @@
     break-after: auto;
   }
 
+  /* `size` is set at runtime by the viewer (per the active pageSize); see
+     ResumeViewer's injected <style>. Only the zero margin is static here. */
   @page {
-    size: letter;
     margin: 0;
   }
 }

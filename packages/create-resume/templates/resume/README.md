@@ -38,9 +38,14 @@ Open the printed local URL — the project boots straight into the **viewer**: z
 ## How it works
 
 - **`src/resume.mdx` / `src/cv.mdx`** — your document, written from the primitives below.
-- **`src/app.tsx`** — renders the compiled MDX through `<ResumeViewer Content={Resume} pdfFilename="Resume" />`.
+- **`src/app.tsx`** — renders the compiled MDX through `<ResumeViewer Content={Resume} pdfFilename="Resume" pageSize="letter" />`.
 - **`src/main.tsx`** — mounts the app and imports `./index.css`.
-- **`src/index.css`** — a neutral page background + full-height root. The document's own paper/type styling (the `--doc-*` token system) ships inside `@atom63/resume/styles`, imported from `src/app.tsx`.
+- **`src/index.css`** — a neutral page background + full-height root. The document's own type/ink styling (the `--doc-*` token system) ships inside `@atom63/resume/styles`; override any token in `index.css` to restyle.
+
+## Customize
+
+- **Paper size** — set the `pageSize` prop in `src/app.tsx` to `"letter"` (US, default) or `"a4"`. It drives pagination, the on-screen page, and the PDF.
+- **Look** — override the `--doc-*` design tokens (ink, type, column layout) in `src/index.css`. The documented set is listed there.
 
 ## The primitive grammar
 

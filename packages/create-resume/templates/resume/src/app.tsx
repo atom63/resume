@@ -9,5 +9,7 @@ import Resume from './resume.mdx'
 // Styles load in main.tsx (@atom63/resume/styles, then index.css). Restyle the
 // document by overriding the design tokens in src/index.css.
 export function App() {
-  return <ResumeViewer Content={Resume} pdfFilename="Resume" />
+  // Paper size: 'letter' (US, default) or 'a4'. Drives pagination, the on-screen
+  // page, and the PDF output.
+  return <ResumeViewer Content={Resume} pdfFilename="Resume" pageSize="letter" />
 }

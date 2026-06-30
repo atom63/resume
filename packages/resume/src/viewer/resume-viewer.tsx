@@ -3,8 +3,11 @@ import clsx from 'clsx'
 import { ClipboardCopy, Maximize2, Minus, Plus } from 'lucide-react'
 import { useRef } from 'react'
 import { resumeMdxComponents } from '../document/components'
-import { PaginationReportContext, ResumeFontFamilyContext } from '../document/pagination-context'
-import { PAGE } from '../geometry'
+import {
+  PaginationReportContext,
+  ResumeFontFamilyContext,
+  ResumePageSizeContext,
+} from '../document/pagination-context'
 import '../styles/tokens.css'
 import '../styles/document.css'
 import '../styles/viewer.css'
@@ -17,6 +20,7 @@ export function ResumeViewer({
   components,
   fontFamily,
   isActive = true,
+  pageSize = 'letter',
   pdfFilename,
   onCopy,
   onError,
@@ -34,6 +38,7 @@ export function ResumeViewer({
     effectiveScale,
     isFitToWidth,
     totalHeight,
+    geo,
     handleZoomIn,
     handleZoomOut,
     handleActualSize,
@@ -47,6 +52,7 @@ export function ResumeViewer({
     contentRef,
     isMobile,
     isActive,
+    pageSize,
     pdfFilename,
     onCopy,
     onError,
@@ -54,6 +60,8 @@ export function ResumeViewer({
 
   return (
     <div className="resume-viewer">
+      {/* Drives the printed paper size; @page can't read a CSS custom property. */}
+      <style>{`@page { size: ${geo.cssPageSize}; margin: 0; }`}</style>
       <div className="resume-viewer-toolbar">
         {toolbarStart}
         <span className="resume-viewer-pagecount">
@@ -139,7 +147,7 @@ export function ResumeViewer({
           <div
             className="resume-viewer-page-box"
             style={{
-              width: PAGE.widthPx * effectiveScale,
+              width: geo.widthPx * effectiveScale,
               height: totalHeight * effectiveScale,
             }}
           >
@@ -147,25 +155,27 @@ export function ResumeViewer({
               className="resume-viewer-scale-root"
               data-resume-scale-root=""
               style={{
-                width: PAGE.widthPx,
+                width: geo.widthPx,
                 height: totalHeight,
                 transform: effectiveScale === 1 ? undefined : `scale(${effectiveScale})`,
               }}
             >
-              <ResumeFontFamilyContext.Provider value={fontFamily}>
-                <PaginationReportContext.Provider value={setPageCount}>
-                  <MDXProvider components={components ?? resumeMdxComponents}>
-                    <div
-                      className="resume-viewer-content"
-                      id="resume-print-target"
-                      ref={contentRef}
-                      style={{ zIndex: 1 }}
-                    >
-                      <Content />
-                    </div>
-                  </MDXProvider>
-                </PaginationReportContext.Provider>
-              </ResumeFontFamilyContext.Provider>
+              <ResumePageSizeContext.Provider value={pageSize}>
+                <ResumeFontFamilyContext.Provider value={fontFamily}>
+                  <PaginationReportContext.Provider value={setPageCount}>
+                    <MDXProvider components={components ?? resumeMdxComponents}>
+                      <div
+                        className="resume-viewer-content"
+                        id="resume-print-target"
+                        ref={contentRef}
+                        style={{ zIndex: 1 }}
+                      >
+                        <Content />
+                      </div>
+                    </MDXProvider>
+                  </PaginationReportContext.Provider>
+                </ResumeFontFamilyContext.Provider>
+              </ResumePageSizeContext.Provider>
             </div>
           </div>
         </section>

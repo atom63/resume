@@ -1,4 +1,5 @@
 import type { ComponentType, ReactNode } from 'react'
+import type { PageSize } from '../geometry'
 
 export interface ResumeViewerProps {
   /** Compiled MDX component for the document (rendered as <Content />). */
@@ -9,6 +10,8 @@ export interface ResumeViewerProps {
   fontFamily?: string
   /** Whether this viewer owns global print + keyboard shortcuts. Default true. */
   isActive?: boolean
+  /** Paper size for the document + print output. Default 'letter'. */
+  pageSize?: PageSize
   /** Suggested PDF filename (becomes document.title during print). */
   pdfFilename?: string
   /** Called after a successful copy-to-clipboard (host shows its own toast). */

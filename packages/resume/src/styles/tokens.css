@@ -1,29 +1,22 @@
 /*
- * @atom63/resume — paper/document design tokens.
+ * @atom63/resume — document design tokens (the --doc-* vocabulary).
  *
  * The single source of truth for the resume/CV look. Override any token (e.g.
  * in your own stylesheet, scoped to [data-resume-document]) to restyle the
  * resume and CV together; the React primitives only compose these.
  *
- *   --paper-* : page geometry (defaults: US Letter @ 96dpi; override for A4).
- *   --doc-*   : document language (layout, type, ink).
+ * Page SIZE is not a token — it is fixed numeric geometry (see geometry.ts) and
+ * is selected with the ResumeViewer `pageSize` prop ('letter' | 'a4').
  *
  * Print-fixed by design: doc sizes are absolute px for PDF fidelity, independent
  * of any host typography-scale setting. The font *family* is inherited (so the
  * document follows the host font), which is why pagination re-measures on font
  * change.
  *
- * NOTE: the numeric --paper-* defaults and --doc-block-gap MUST stay in sync with
- * geometry.ts (the JS packer reads the same numbers to compute page breaks).
+ * NOTE: --doc-block-gap MUST stay in sync with BLOCK_GAP_PX in geometry.ts (the
+ * JS packer reads the same number to compute page breaks).
  */
 [data-resume-document] {
-  /* Page geometry (US Letter @ 96dpi — see geometry.ts) */
-  --paper-width: 8.5in;
-  --paper-height: 11in;
-  --paper-pad-x: 0.7in;
-  --paper-pad-y: 0.6in;
-  --paper-gap: 32px; /* screen-only gap between page frames */
-
   /* Document layout */
   --doc-meta-col: 11rem; /* left meta/label column (header name, section label, year|role) */
   --doc-resume-cols: 1fr 2fr; /* resume sidebar | main split */

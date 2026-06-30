@@ -24,11 +24,14 @@ export { PaginatedResume } from './document/paginated-resume'
 export {
   PaginationReportContext,
   ResumeFontFamilyContext,
+  ResumePageSizeContext,
   usePaginationReport,
   useResumeFontFamily,
+  useResumePageSize,
 } from './document/pagination-context'
+export type { PageGeometry, PageSize } from './geometry'
 // Page geometry (for consumers wiring their own layout)
-export { BLOCK_GAP_PX, PAGE } from './geometry'
+export { BLOCK_GAP_PX, getPageGeometry, PAGE } from './geometry'
 export type { Block, ColumnKey, PackInput, PackResult } from './pagination/pagination'
 // Pure pagination packer
 export { packIntoPages } from './pagination/pagination'

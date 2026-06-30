@@ -10,7 +10,7 @@
 // wires every listener to them and returns the derived scale, page count, and
 // the toolbar action handlers.
 import { type RefObject, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { PAGE, WRAPPER_PADDING_X } from '../geometry'
+import { getPageGeometry, type PageGeometry, type PageSize, WRAPPER_PADDING_X } from '../geometry'
 import { registerPrintController } from './print'
 import {
   clampScrollPosition,
@@ -42,6 +42,8 @@ export interface UseResumeViewportOptions {
   isMobile: boolean
   /** Whether this viewport owns global print + keyboard shortcuts. */
   isActive: boolean
+  /** Paper size driving the page dimensions + fit-to-width. Default 'letter'. */
+  pageSize?: PageSize
   /** Suggested PDF filename (becomes document.title during print). */
   pdfFilename?: string
   /** Called after a successful copy-to-clipboard. */
@@ -61,6 +63,8 @@ export interface UseResumeViewport {
   isFitToWidth: boolean
   /** Total stacked page height (unscaled px) — for sizing the page box. */
   totalHeight: number
+  /** Resolved geometry for the active page size — for sizing the scaled box. */
+  geo: PageGeometry
   handleZoomIn: () => void
   handleZoomOut: () => void
   handleActualSize: () => void
@@ -82,10 +86,13 @@ export function useResumeViewport({
   contentRef,
   isMobile,
   isActive,
+  pageSize = 'letter',
   pdfFilename,
   onCopy,
   onError,
 }: UseResumeViewportOptions): UseResumeViewport {
+  const geo = getPageGeometry(pageSize)
+
   // Keep the latest active state readable from global listeners (print/keyboard)
   // without re-registering them, so this viewport only hijacks printing when
   // it's the active view (avoids clashing with other apps' print handlers).
@@ -151,7 +158,7 @@ export function useResumeViewport({
 
     const updateFitScale = () => {
       const available = Math.max(0, viewport.clientWidth - WRAPPER_PADDING_X)
-      setFitScale(clampResumeZoom(Math.min(1, available / PAGE.widthPx)))
+      setFitScale(clampResumeZoom(Math.min(1, available / geo.widthPx)))
     }
 
     updateFitScale()
@@ -163,7 +170,7 @@ export function useResumeViewport({
       observer.disconnect()
       window.visualViewport?.removeEventListener('resize', updateFitScale)
     }
-  }, [scrollRef])
+  }, [scrollRef, geo.widthPx])
 
   const captureViewportCenter = useCallback(() => {
     const el = scrollRef.current
@@ -498,7 +505,7 @@ export function useResumeViewport({
     }
   }, [contentRef, onCopy, onError])
 
-  const totalHeight = pageCount * PAGE.heightPx + Math.max(0, pageCount - 1) * PAGE.gapPx
+  const totalHeight = pageCount * geo.heightPx + Math.max(0, pageCount - 1) * geo.gapPx
 
   return {
     pageCount,
@@ -506,6 +513,7 @@ export function useResumeViewport({
     effectiveScale,
     isFitToWidth,
     totalHeight,
+    geo,
     handleZoomIn,
     handleZoomOut,
     handleActualSize,

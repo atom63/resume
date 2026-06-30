@@ -17,7 +17,7 @@ body {
    your values win. Uncomment a line and edit it; defaults are shown.
 
    Full token reference: the `@atom63/resume/tokens` stylesheet.
-   Note: page size is fixed to US Letter (8.5 x 11in) in this release. */
+   Note: set the page size with the pageSize prop in src/app.tsx ('letter' or 'a4'). */
 
 [data-resume-document] {
   /* Ink — the colors on the white page */
