@@ -6,6 +6,31 @@
  * or restyle without forking these classes.
  */
 
+/*
+ * The page frames set width/height to the paper size and add the margins as
+ * padding, so they MUST be border-box. Scope a border-box reset to the document
+ * subtree — the package can't assume the host ships a global reset (without it a
+ * standalone consumer gets oversized, off-center pages and a wider content area).
+ */
+[data-resume-document],
+[data-resume-document] *,
+[data-resume-document] *::before,
+[data-resume-document] *::after {
+  box-sizing: border-box;
+}
+
+/*
+ * Zero the user-agent margins on flow elements. The layout spaces blocks with
+ * flex `gap`; default heading/paragraph/list margins ADD on top of it and blow
+ * out the vertical rhythm (the package can't assume the host ships a reset like
+ * Tailwind preflight). `:where()` keeps specificity 0 so the .doc-* classes
+ * below — e.g. .doc-section's intentional margin-top — still win.
+ */
+[data-resume-document]
+  :where(h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, blockquote, dl, dd, pre) {
+  margin: 0;
+}
+
 /* Layout primitives */
 .doc-meta-grid {
   display: grid;
@@ -164,7 +189,9 @@
   flex-direction: column;
   background: #fff;
   color: #000;
+  /* Paper on a desk: a tight contact shadow + a soft ambient lift. */
   box-shadow:
-    0 10px 15px -3px rgb(0 0 0 / 0.1),
-    0 4px 6px -4px rgb(0 0 0 / 0.1);
+    0 0 0 1px rgb(24 24 27 / 0.04),
+    0 1px 2px rgb(24 24 27 / 0.04),
+    0 12px 32px -12px rgb(24 24 27 / 0.18);
 }

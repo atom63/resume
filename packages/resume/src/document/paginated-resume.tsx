@@ -12,8 +12,10 @@ import { BLOCK_GAP_PX, getPageGeometry } from '../geometry'
 import { type Block, type ColumnKey, packIntoPages } from '../pagination/pagination'
 import { Columns, Footer, Header, Main, Sidebar } from './components'
 import { usePaginationReport, useResumeFontFamily, useResumePageSize } from './pagination-context'
-import '../styles/tokens.css'
-import '../styles/document.css'
+
+// Styles ship via the `@atom63/resume/styles` entry (import it once in your app)
+// — NOT self-imported here, so a consumer's token overrides always win the
+// cascade instead of racing a re-injected copy of the package CSS.
 
 type Columned = Record<ColumnKey, ReactNode[]>
 
@@ -141,35 +143,45 @@ export function PaginatedResume({ children }: { children: ReactNode }) {
   }, [contentKey])
 
   // The hidden measuring layer renders the real structure at content width.
+  // A 0x0 overflow-hidden clip wrapper keeps it out of the scroll area (a large
+  // negative offset would inflate the viewport and spawn a phantom horizontal
+  // scrollbar, drifting the page off-center). The INNER element keeps its
+  // natural size so block heights stay measurable and its ResizeObserver still
+  // fires on content changes.
   const measureLayer = (
     <div
       aria-hidden
-      data-resume-measure
-      ref={measureRef}
       style={{
         position: 'absolute',
         top: 0,
-        left: -99999,
-        width: geo.contentWidthPx,
-        visibility: 'hidden',
+        left: 0,
+        width: 0,
+        height: 0,
+        overflow: 'hidden',
         pointerEvents: 'none',
       }}
     >
-      {header}
-      {blocks.sidebar.length === 0 ? (
-        // Single-column docs (e.g. the CV) put everything in Main and render
-        // full-width. Measure at full width too so block heights match the
-        // full-width page render below (otherwise they'd be measured at the
-        // narrower 2/3 main-column width and mis-paginate).
-        <div className="doc-col" data-resume-col="main">
-          {blocks.main}
-        </div>
-      ) : (
-        <Columns>
-          <Sidebar>{blocks.sidebar}</Sidebar>
-          <Main>{blocks.main}</Main>
-        </Columns>
-      )}
+      <div
+        data-resume-measure
+        ref={measureRef}
+        style={{ width: geo.contentWidthPx, visibility: 'hidden' }}
+      >
+        {header}
+        {blocks.sidebar.length === 0 ? (
+          // Single-column docs (e.g. the CV) put everything in Main and render
+          // full-width. Measure at full width too so block heights match the
+          // full-width page render below (otherwise they'd be measured at the
+          // narrower 2/3 main-column width and mis-paginate).
+          <div className="doc-col" data-resume-col="main">
+            {blocks.main}
+          </div>
+        ) : (
+          <Columns>
+            <Sidebar>{blocks.sidebar}</Sidebar>
+            <Main>{blocks.main}</Main>
+          </Columns>
+        )}
+      </div>
     </div>
   )
 

@@ -8,9 +8,9 @@ import {
   ResumeFontFamilyContext,
   ResumePageSizeContext,
 } from '../document/pagination-context'
-import '../styles/tokens.css'
-import '../styles/document.css'
-import '../styles/viewer.css'
+// Styles ship via the `@atom63/resume/styles` entry (import it once in your app)
+// — NOT self-imported here, so a consumer's token overrides reliably win the
+// cascade instead of racing a re-injected copy of the package CSS.
 import type { ResumeViewerProps } from './resume-viewer.types'
 import { useIsMobile } from './use-is-mobile'
 import { useResumeViewport } from './use-resume-viewport'
@@ -118,7 +118,7 @@ export function ResumeViewer({
             <ClipboardCopy className="resume-viewer-icon" />
           </button>
           <button
-            className="resume-viewer-btn resume-viewer-btn-text"
+            className="resume-viewer-btn resume-viewer-btn-primary"
             onClick={requestPrint}
             type="button"
           >

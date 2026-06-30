@@ -9,14 +9,19 @@
  * is selected with the ResumeViewer `pageSize` prop ('letter' | 'a4').
  *
  * Print-fixed by design: doc sizes are absolute px for PDF fidelity, independent
- * of any host typography-scale setting. The font *family* is inherited (so the
- * document follows the host font), which is why pagination re-measures on font
- * change.
+ * of any host typography-scale setting. The font family defaults to a clean sans
+ * stack via --doc-font; set --doc-font: inherit to follow the host font instead
+ * (pagination re-measures on font change).
  *
  * NOTE: --doc-block-gap MUST stay in sync with BLOCK_GAP_PX in geometry.ts (the
  * JS packer reads the same number to compute page breaks).
  */
 [data-resume-document] {
+  /* Font — follows the host app's font by default (so an embedded resume matches
+     its surroundings). Set --doc-font to a specific stack to override; the
+     create-resume scaffold sets a clean sans stack in its index.css. */
+  font-family: var(--doc-font, inherit);
+
   /* Document layout */
   --doc-meta-col: 11rem; /* left meta/label column (header name, section label, year|role) */
   --doc-resume-cols: 1fr 2fr; /* resume sidebar | main split */
@@ -26,7 +31,8 @@
   --doc-section-gap: 0.5rem; /* space above a section */
   --doc-group-gap: 0.125rem; /* within a tight group (title + meta line) */
 
-  /* Type */
+  /* Type — package default matches OS63 (10px). The scaffold bumps --doc-text to
+     11px in its index.css for a more readable starting point. */
   --doc-text: 10px;
   --doc-text-xs: 8px;
   --doc-leading: 1.4;

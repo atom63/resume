@@ -20,6 +20,16 @@ body {
    Note: set the page size with the pageSize prop in src/app.tsx ('letter' or 'a4'). */
 
 [data-resume-document] {
+  /* Font — a clean sans stack. Set to `inherit` to follow your app's font, or
+     drop in any family (including a web font you load in index.html). */
+  --doc-font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+
+  /* Type — a slightly larger, more readable body than the 10px package default.
+     Drop it to 10px to fit more on the page, or bump it for fewer words. */
+  --doc-text: 11px; /* body and most text */
+  --doc-text-xs: 8.5px; /* footer */
+
   /* Ink — the colors on the white page */
   /* --doc-ink: #000; */ /* headings + bold */
   /* --doc-ink-body: #404040; */ /* body copy */
@@ -27,11 +37,10 @@ body {
   /* --doc-ink-faint: #a3a3a3; */ /* footer, faint detail */
   /* --doc-rule: #d4d4d4; */ /* divider lines */
 
-  /* Type — print-fixed px, independent of browser zoom */
-  /* --doc-text: 10px; */ /* body and most text */
-  /* --doc-text-xs: 8px; */ /* footer */
+  /* More type — uncomment to tune */
   /* --doc-leading: 1.4; */ /* body line-height */
   /* --doc-leading-heading: 1.5; */ /* heading line-height */
+  /* --doc-font: inherit; */ /* follow the host font instead of the sans default */
 
   /* Layout */
   /* --doc-resume-cols: 1fr 2fr; */ /* resume sidebar-to-main column ratio */
