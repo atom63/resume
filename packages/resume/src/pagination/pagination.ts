@@ -77,7 +77,8 @@ function packColumn(
     used += (used > 0 ? gap : 0) + b.height
   }
 
-  return { pageOf, pages: page + 1, oversized }
+  const pages = blocks.length === 0 ? 1 : page + (used > 0 ? 1 : 0)
+  return { pageOf, pages, oversized }
 }
 
 /** Assign measured blocks to pages per column. Pure: no DOM. */

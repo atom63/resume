@@ -1,14 +1,21 @@
 # @atom63/resume
 
-**Write your resume and CV as MDX — paginated, print-ready, in React.**
-
-A resume is just an `.mdx` file built from a small grammar of composable
-primitives. The engine paginates it into real 8.5×11″ (or A4) pages, renders a
-zoom/pan viewer, and prints to a clean multi-page PDF. Because the document is
-*code*, a coding agent can write it from your notes — and you keep the MDX as the
-source of truth.
+**A render utility for resumes and CVs — you bring the content (from any LLM or coding agent), it makes the paginated, ATS-friendly PDF.**
 
 ![The ResumeViewer rendering a resume](https://raw.githubusercontent.com/atom63/resume/main/packages/resume/media/demo.png)
+
+## What it is
+
+- **A render utility, not a resume maker.** You bring the words — write them yourself or with any LLM / coding agent — and it typesets your MDX into real 8.5×11″ (or A4) pages, a zoom/pan viewer, and a clean, **selectable-text (ATS-friendly)** PDF.
+- **Made for the coding-agent workflow.** The document is *code* built from a small grammar of primitives, so an agent can draft and revise it from your notes — and the `.mdx` stays your source of truth.
+- **Tailwind-free and token-themeable.** Restyle the whole document — resume and CV together — by overriding the `--doc-*` design tokens.
+
+## What it's not
+
+- **Not a resume writer or reviewer.** It doesn't generate, score, critique, or proofread your content — that's on you and the LLM of your choice. It owns the render, not the resume.
+- **Not a WYSIWYG builder.** You (or your agent) write MDX; there's no drag-and-drop canvas. An optional live-preview editor ships in `@atom63/resume/editor` — the source is still MDX.
+- **Not a hosted app.** No account, backend, or template marketplace; it's a library you run in your own React/Vite project.
+- **Not a general page-layout engine.** It paginates the resume/CV grammar (`<Header>`, `<Columns>`, `<Section>`…), not arbitrary HTML.
 
 > Status: `0.2.x`. The API may shift before `1.0`. See [CHANGELOG](./CHANGELOG.md).
 

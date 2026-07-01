@@ -55,11 +55,23 @@ export function resumeWriteBackPlugin(options: ResumeWriteBackOptions = {}): Plu
         // shortly after so EXTERNAL edits (you / your agent editing resume.mdx)
         // still hot-reload normally.
         server.watcher.unwatch(resumeAbs)
-        const result = await handleWriteBack({ resumePath, root: server.config.root }, body)
-        setTimeout(() => server.watcher.add(resumeAbs), 250)
-        res.statusCode = result.ok ? 200 : 400
-        res.setHeader('content-type', 'application/json')
-        res.end(JSON.stringify(result))
+        try {
+          const result = await handleWriteBack({ resumePath, root: server.config.root }, body)
+          res.statusCode = result.ok ? 200 : 400
+          res.setHeader('content-type', 'application/json')
+          res.end(JSON.stringify(result))
+        } catch (error) {
+          res.statusCode = 500
+          res.setHeader('content-type', 'application/json')
+          res.end(
+            JSON.stringify({
+              ok: false,
+              error: error instanceof Error ? error.message : 'Failed to write resume',
+            })
+          )
+        } finally {
+          setTimeout(() => server.watcher.add(resumeAbs), 250)
+        }
       })
     },
   }

@@ -1,0 +1,51 @@
+/* App background + full-height root for the viewer to fill. */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: #f4f4f5;
+}
+
+/* ── Restyle the resume ───────────────────────────────────────────────────
+   The document's look is driven by design tokens that ship in
+   @atom63/resume/styles. Override any of them here to restyle the resume and
+   CV together — this file loads AFTER the package styles (see main.tsx), so
+   your values win. Uncomment a line and edit it; defaults are shown.
+
+   Full token reference: the `@atom63/resume/tokens` stylesheet.
+   Note: set the page size with the pageSize prop in src/app.tsx ('letter' or 'a4'). */
+
+[data-resume-document] {
+  /* Font — a clean sans stack. Set to `inherit` to follow your app's font, or
+     drop in any family (including a web font you load in index.html). */
+  --doc-font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+
+  /* Type — a slightly larger, more readable body than the 10px package default.
+     Drop it to 10px to fit more on the page, or bump it for fewer words. */
+  --doc-text: 11px; /* body and most text */
+  --doc-text-xs: 8.5px; /* footer */
+
+  /* Ink — the colors on the white page */
+  /* --doc-ink: #000; */ /* headings + bold */
+  /* --doc-ink-body: #404040; */ /* body copy */
+  /* --doc-ink-muted: #737373; */ /* labels and meta (the "year | role" column) */
+  /* --doc-ink-faint: #a3a3a3; */ /* footer, faint detail */
+  /* --doc-rule: #d4d4d4; */ /* divider lines */
+
+  /* More type — uncomment to tune */
+  /* --doc-leading: 1.4; */ /* body line-height */
+  /* --doc-leading-heading: 1.5; */ /* heading line-height */
+  /* --doc-font: inherit; */ /* follow the host font instead of the sans default */
+
+  /* Layout */
+  /* --doc-resume-cols: 1fr 2fr; */ /* resume sidebar-to-main column ratio */
+  /* --doc-meta-col: 11rem; */ /* width of the left label column (name, section labels) */
+  /* --doc-col-pad: 1.5rem; */ /* gutter between the two resume columns */
+  /* --doc-col-gap: 0.75rem; */ /* gap between a section label and its content */
+  /* --doc-section-gap: 0.5rem; */ /* space above each section */
+}

@@ -220,9 +220,15 @@
     background: white !important;
   }
 
-  /* Frames stack with a screen-only gap; remove it so each maps 1:1 to a page. */
-  #resume-print-clone > div {
-    gap: 0 !important;
+  /* Stack the page frames as block boxes for printing. The forced page breaks
+     below (break-after: page) fragment incorrectly when the frames sit inside
+     nested flex columns (the clone root wrapping .doc-pages) — Chromium emits a
+     spurious trailing blank sheet. Block layout fragments cleanly AND ignores
+     the flex `gap`, so it also drops the screen-only inter-frame gap; each frame
+     then maps 1:1 to a physical page. */
+  #resume-print-clone,
+  #resume-print-clone .doc-pages {
+    display: block !important;
   }
 
   [data-resume-page] {

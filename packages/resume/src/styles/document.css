@@ -167,9 +167,21 @@
   padding-left: var(--doc-col-pad);
 }
 
+/* Bullet lists — a custom marker (not list-style) so the disc sits flush with
+   the section's left edge with a tight, even gap to the text, and wrapped lines
+   hang under the text rather than the marker. Sized in em so the indent tracks
+   the document type scale instead of the root rem. */
 .doc-list {
-  list-style: disc;
-  padding-left: 0.75rem;
+  list-style: none;
+  padding-left: 0;
+}
+.doc-list > li {
+  padding-left: 0.85em;
+  text-indent: -0.85em;
+}
+.doc-list > li::before {
+  content: "•";
+  margin-right: 0.4em;
 }
 .doc-em {
   font-style: normal;

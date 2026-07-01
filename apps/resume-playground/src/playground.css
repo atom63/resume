@@ -1,0 +1,213 @@
+/*
+ * Live resume playground — the harness chrome that wraps the @atom63/resume
+ * viewer with an MDX source editor. The editor panel intentionally reuses the
+ * viewer's own --rv-* token vocabulary and controls (see the .resume-viewer
+ * chrome in @atom63/resume/styles) so the source pane and the preview read as
+ * one chrome instead of two design languages.
+ */
+.live-resume {
+  /* Mirror of the viewer chrome tokens (cool-tinted neutrals, never pure
+     black/white) so the source panel inherits the same palette. Keep in sync
+     with .resume-viewer in @atom63/resume's viewer.css. */
+  --rv-surface: oklch(0.995 0.001 264);
+  --rv-canvas: oklch(0.965 0.002 264);
+  --rv-border: oklch(0.28 0.01 264 / 0.1);
+  --rv-ink: oklch(0.32 0.008 264);
+  --rv-ink-muted: oklch(0.56 0.006 264);
+  --rv-hover: oklch(0.28 0.01 264 / 0.06);
+  --rv-active: oklch(0.28 0.01 264 / 0.1);
+  --rv-primary: oklch(0.34 0.012 264);
+  --rv-primary-hover: oklch(0.28 0.012 264);
+  --rv-primary-ink: oklch(0.98 0.001 264);
+  --rv-radius: 0.4375rem;
+
+  display: grid;
+  /* Source pane holds a comfortable editor width but flexes down so tablet
+     landscape keeps two columns instead of stacking early. */
+  grid-template-columns: minmax(clamp(300px, 32vw, 380px), 0.42fr) minmax(0, 1fr);
+  height: 100vh;
+  overflow: hidden;
+  background: var(--rv-canvas);
+  color: var(--rv-ink);
+  font:
+    14px/1.45 ui-sans-serif,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif;
+}
+
+.live-source,
+.live-preview {
+  min-width: 0;
+  min-height: 0;
+}
+
+/* Source panel — same surface + divider as the viewer's toolbar band. */
+.live-source {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--rv-border);
+  background: var(--rv-surface);
+}
+
+.live-preview {
+  height: 100%;
+}
+
+/* Header + footer bands mirror .resume-viewer-toolbar (height, padding, rule). */
+.live-source-toolbar,
+.live-source-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.4375rem 0.75rem;
+  flex: 0 0 auto;
+}
+
+.live-source-toolbar {
+  justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 0.375rem;
+  border-bottom: 1px solid var(--rv-border);
+}
+
+.live-source-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Let the viewer's own toolbar wrap only when it genuinely overflows, rather
+   than collapsing to a tall vertical stack the moment the panes stack. */
+.live-resume .resume-viewer-toolbar,
+.live-resume .resume-viewer-controls {
+  flex-wrap: wrap;
+  row-gap: 0.375rem;
+}
+
+/* Copy / Reset — ghost buttons matching the viewer's icon controls, widened a
+   touch for their text labels. */
+.live-source-btn {
+  gap: 0.375rem;
+  padding: 0 0.625rem;
+  font-weight: 500;
+}
+
+.live-btn-icon {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+/* Copy confirmation — the clipboard icon swaps to a check. The checkmark shape
+   carries the "copied" meaning, so it stays in the neutral chrome ink rather
+   than introducing an off-palette success colour; a small pop marks the change. */
+.live-btn-icon-check {
+  animation: live-copied-pop 160ms ease-out;
+}
+
+@keyframes live-copied-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-btn-icon-check {
+    animation: none;
+  }
+}
+
+/* Doc (resume/cv) segment reuses the viewer pill; widen for the labels. */
+.live-doc-segment .resume-viewer-btn {
+  min-width: 3.25rem;
+}
+
+/* Editor — borderless, like @atom63/resume's own split-pane source textarea. */
+.live-source-input {
+  flex: 1 1 auto;
+  min-height: 0;
+  resize: none;
+  border: 0;
+  background: var(--rv-surface);
+  color: var(--rv-ink);
+  padding: 0.875rem;
+  font:
+    0.8125rem/1.55 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Liberation Mono",
+    monospace;
+  outline: none;
+  tab-size: 2;
+}
+
+/* No focus ring on the editor: it fills the pane between the toolbar and footer
+   dividers, so a border/box-shadow would read as a doubled border against them.
+   The caret is the focus indicator (matching the package's own ResumeEditor). */
+.live-source-input:focus-visible {
+  outline: none;
+}
+
+.live-source-footer {
+  justify-content: space-between;
+  border-top: 1px solid var(--rv-border);
+  color: var(--rv-ink-muted);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Compile error — a quiet banner tinted toward the chrome, not a loud red slab. */
+.live-error {
+  border-bottom: 1px solid var(--rv-border);
+  background: color-mix(in oklch, #b00020 7%, var(--rv-surface));
+  color: #8a0018;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+}
+
+.live-page-size .resume-viewer-btn {
+  text-transform: capitalize;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--rv-ink-muted);
+  outline-offset: 2px;
+}
+
+/* Stack the panes once the two columns can no longer both hold a usable width
+   (~300px editor + ~500px preview). The editor takes the top band; the preview
+   fills the rest. */
+@media (max-width: 820px) {
+  .live-resume {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(220px, 40vh) minmax(0, 1fr);
+  }
+
+  .live-source {
+    border-right: 0;
+    border-bottom: 1px solid var(--rv-border);
+  }
+}
+
+/* Touch devices — meet a 44px tap target and lift the editor font above the
+   iOS focus-zoom threshold. Scoped to this harness so the shared viewer chrome
+   is unaffected on pointer devices. */
+@media (pointer: coarse) {
+  .live-resume .resume-viewer-btn,
+  .live-resume .resume-viewer-zoom-label {
+    height: 2.75rem;
+    min-width: 2.75rem;
+  }
+
+  .live-source-input {
+    font-size: 1rem;
+  }
+}

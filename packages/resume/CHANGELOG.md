@@ -2,6 +2,28 @@
 
 All notable changes to `@atom63/resume`. Versions are `0.x` — the API may shift before `1.0`.
 
+## 0.2.3
+
+- **Fix: printed PDFs no longer add a trailing blank page.** The print clone
+  stacked the page frames inside nested flex containers, and Chromium
+  mis-fragmented the forced `break-after: page` breaks and appended one blank
+  sheet (an N-page resume printed N+1). The print stylesheet now stacks the
+  frames as block boxes, which fragment cleanly (and drops the screen-only
+  inter-frame gap).
+- **Fix: list bullets align tighter.** The disc marker sat in a wide, rem-based
+  hanging indent that floated it off to the left. Bullets now use a custom
+  marker flush with the section's left edge, with a tight even gap and wrapped
+  lines hanging under the text; the indent is em-based so it tracks the
+  document type size.
+
+## 0.2.2
+
+- **Fix: final oversized blocks no longer create a trailing blank page.**
+- **Fix: custom MDX components now merge over the defaults.** Consumers can pass
+  `components={{ SkillBar }}` without spreading the built-in resume components.
+- **Fix: dev write-back always restores the file watcher** and returns JSON for
+  write failures instead of leaving the watcher unregistered.
+
 ## 0.2.1
 
 Standalone-rendering fixes. If you saw oversized, off-center pages or loose

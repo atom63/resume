@@ -31,6 +31,7 @@ export function ResumeViewer({
   const isMobile = useIsMobile()
   const scrollRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
+  const mdxComponents = { ...resumeMdxComponents, ...components }
 
   const {
     pageCount,
@@ -163,7 +164,7 @@ export function ResumeViewer({
               <ResumePageSizeContext.Provider value={pageSize}>
                 <ResumeFontFamilyContext.Provider value={fontFamily}>
                   <PaginationReportContext.Provider value={setPageCount}>
-                    <MDXProvider components={components ?? resumeMdxComponents}>
+                    <MDXProvider components={mdxComponents}>
                       <div
                         className="resume-viewer-content"
                         id="resume-print-target"

@@ -68,6 +68,18 @@ describe('packIntoPages', () => {
     expect(r.pageOf.main.c).toBe(2)
   })
 
+  it('does not add a trailing blank page after a final oversized block', () => {
+    const r = packIntoPages({
+      columns: {
+        sidebar: [],
+        main: [{ id: 'big', height: 1400, keepWithNext: false }],
+      },
+      pageUsableHeight: full,
+    })
+    expect(r.pageCount).toBe(1)
+    expect(r.pageOf.main.big).toBe(0)
+  })
+
   it('uses a shorter first page (header band) to shift the boundary', () => {
     const r = packIntoPages({
       columns: { sidebar: [], main: flat(2, 600) },

@@ -59,7 +59,7 @@ try {
   const pkgJson = JSON.parse(readFileSync(join(projectDir, 'package.json'), 'utf-8'))
 
   assert(pkgJson.name === projectName, 'name is set to the requested project name')
-  assert(pkgJson.dependencies['@atom63/resume'] === '^0.1.0', '@atom63/resume is a published range')
+  assert(pkgJson.dependencies['@atom63/resume'] === '^0.2.1', '@atom63/resume is a published range')
 
   const allDeps = { ...pkgJson.dependencies, ...pkgJson.devDependencies }
   const workspaceRefs = Object.entries(allDeps).filter(([, v]) =>

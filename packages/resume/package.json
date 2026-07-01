@@ -1,6 +1,6 @@
 {
   "name": "@atom63/resume",
-  "version": "0.2.1",
+  "version": "0.2.3",
   "license": "MIT",
   "type": "module",
   "description": "Write resumes and CVs as MDX — a paginated, print-ready document engine + viewer for React, styled with a self-contained paper/document token system.",
