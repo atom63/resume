@@ -12,9 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # pnpm version comes from the "packageManager" field in package.json —
+      # don't also pin it here, or action-setup errors on the duplicate.
       - uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - uses: actions/setup-node@v4
         with:
