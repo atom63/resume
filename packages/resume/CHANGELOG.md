@@ -2,6 +2,18 @@
 
 All notable changes to `@atom63/resume`. Versions are `0.x` — the API may shift before `1.0`.
 
+## 0.2.4
+
+- **Fix: resumes that should span multiple pages collapsed onto one overflowing
+  page at any zoom below 100%.** The hidden measure layer renders inside the
+  viewer's `transform: scale(...)` fit-to-width wrapper, and block heights were
+  read with `getBoundingClientRect().height`, which returns _scaled_ pixels. The
+  packer compares those heights against the unscaled page geometry, so at
+  fit-to-width (e.g. 0.7×) every block measured ~30% short and a two-page resume
+  packed into a single clipped page. Heights are now read with `offsetHeight`
+  (layout height, unaffected by ancestor transforms), so pagination is correct
+  at every zoom level.
+
 ## 0.2.3
 
 - **Fix: printed PDFs no longer add a trailing blank page.** The print clone

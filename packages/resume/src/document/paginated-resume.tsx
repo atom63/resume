@@ -64,12 +64,22 @@ function extract(children: ReactNode): {
   return { header, footer, blocks }
 }
 
-/** Read a block element's full vertical extent (border box + margins). */
+/**
+ * Read a block element's full vertical extent (border box + margins).
+ *
+ * Uses `offsetHeight`, NOT `getBoundingClientRect().height`: the measure layer
+ * renders inside the viewport's `transform: scale(...)` fit-to-width wrapper, and
+ * `getBoundingClientRect` returns *scaled* pixels. The packer compares heights
+ * against the UNSCALED page geometry, so a scaled read (e.g. 0.7×) made every
+ * block look shorter than it prints — collapsing a two-page resume onto one
+ * overflowing page at any zoom below 100%. `offsetHeight` is the layout height,
+ * unaffected by ancestor transforms; margins resolve to layout px too.
+ */
 function blockHeight(el: HTMLElement): number {
   const cs = getComputedStyle(el)
   const mt = Number.parseFloat(cs.marginTop) || 0
   const mb = Number.parseFloat(cs.marginBottom) || 0
-  return el.getBoundingClientRect().height + mt + mb
+  return el.offsetHeight + mt + mb
 }
 
 /**
