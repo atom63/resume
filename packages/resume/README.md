@@ -1,8 +1,21 @@
+<!--
+  MAINTAINER / AGENT NOTE — this README lives in TWO places that are NOT auto-synced:
+    1. packages/resume/README.md (THIS file) — the npm package README and the
+       monorepo source of truth. Synced verbatim into the public mirror by
+       scripts/release-resume-public.sh (under packages/resume/).
+    2. github.com/atom63/resume → /README.md — the mirror's ROOT landing page,
+       a SEPARATE hand-maintained file that the sync script does NOT overwrite.
+  When you change the messaging here, update the mirror's landing README too.
+  See scripts/release-resume-public.sh (SYNC_PATHS note) for the full picture.
+-->
+
 # @atom63/resume
 
 **A render utility for resumes and CVs — you bring the content (from any LLM or coding agent), it makes the paginated, ATS-friendly PDF.**
 
-![The ResumeViewer rendering a resume](https://raw.githubusercontent.com/atom63/resume/main/packages/resume/media/demo.png)
+**▸ Try it live — [resume.atom63.io](https://resume.atom63.io/)** — edit MDX in the browser (by hand or with any LLM) and export a print-ready PDF.
+
+[![The ResumeViewer rendering a resume](https://raw.githubusercontent.com/atom63/resume/main/packages/resume/media/demo.png)](https://resume.atom63.io/)
 
 ## What it is
 
