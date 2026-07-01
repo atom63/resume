@@ -2,13 +2,15 @@
 
 **Write your resume and CV as MDX — paginated, print-ready, in React.**
 
+**▸ Try it live — [resume.atom63.io](https://resume.atom63.io/)** — edit MDX in the browser (by hand or with any LLM) and export a print-ready PDF.
+
 A resume is just an `.mdx` file built from a small grammar of composable
 primitives. The engine paginates it into real 8.5×11″ (or A4) pages, renders a
 zoom/pan viewer, and prints to a clean multi-page PDF. Because the document is
 *code*, a coding agent (Claude Code, Cursor, …) can write it from your notes —
 and you keep the MDX as the source of truth.
 
-![The ResumeViewer rendering a resume](packages/resume/media/demo.png)
+[![The ResumeViewer rendering a resume](packages/resume/media/demo.png)](https://resume.atom63.io/)
 
 > Status: `0.2.x`. The API may shift before `1.0`. See the [changelog](packages/resume/CHANGELOG.md).
 
